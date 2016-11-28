@@ -72,7 +72,8 @@ shinyServer(function(input, output, session) {
             ranks <<- get_ranks(rnk.file)
             pathways <<- get_pathways(gmt.file)
             res <- NULL
-            res <- fgsea(pathways, ranks, nperm=10000, maxSize=500)
+            set.seed(42)
+            res <- fgsea(pathways, ranks, nperm=25000, maxSize=500)
             strippedPathways <- stripSpecialChars(res$pathway)
             full_to_stripped <<- hash(keys=res$pathway, values=strippedPathways)
             stripped_to_full <<- hash(keys=strippedPathways, values=res$pathway)
@@ -95,7 +96,7 @@ shinyServer(function(input, output, session) {
             lengthChange = TRUE,
             pageLength = 20,
             lengthMenu = c(10, 20, 50, 100, -1),
-            order = list(list(2, 'desc'))
+            order = list(list(2, 'asc'))
         )
     )
 
